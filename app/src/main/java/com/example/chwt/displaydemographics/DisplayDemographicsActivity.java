@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
-import org.apache.http.client.HttpClient;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class DisplayDemographicsActivity extends AppCompatActivity {
 
@@ -23,20 +26,15 @@ public class DisplayDemographicsActivity extends AppCompatActivity {
 
     }
 
-    private void getData(){
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpResponse response = httpclient.execute(new HttpGet(URL));
-        StatusLine statusLine = response.getStatusLine();
-        if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            response.getEntity().writeTo(out);
-            String responseString = out.toString();
-            out.close();
-            //..more logic
-        } else{
-            //Closes the connection.
-            response.getEntity().getContent().close();
-            throw new IOException(statusLine.getReasonPhrase());
+/*    private void getData() throws IOException{
+        URL url = new URL("http://catalog.data.gov/api/3");
+        URLConnection urlConnection = url.openConnection();
+        InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+        try {
+            //readStream(in);
+            System.out.println("reading stream");
+        } finally {
+            in.close();
         }
-    }
+    }*/
 }
