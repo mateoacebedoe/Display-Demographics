@@ -5,14 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-
 public class DisplayDemographicsActivity extends AppCompatActivity {
+    final String key = "06c538f6bef96e00f3e39ea1da23b9e810978b77";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,16 +19,4 @@ public class DisplayDemographicsActivity extends AppCompatActivity {
         setContentView(textView);
 
     }
-
-/*    private void getData() throws IOException{
-        URL url = new URL("http://catalog.data.gov/api/3");
-        URLConnection urlConnection = url.openConnection();
-        InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-        try {
-            //readStream(in);
-            System.out.println("reading stream");
-        } finally {
-            in.close();
-        }
-    }*/
 }
