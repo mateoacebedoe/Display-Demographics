@@ -22,4 +22,8 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("zip_code", zip_code);
         startActivity(intent);
     }
+
+    public void testGitPush(){
+        //just a test
+    }
 }
