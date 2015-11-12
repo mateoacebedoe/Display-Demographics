@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,24 +34,31 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DisplayDemographicsActivity.class);
         EditText zip_code_input = (EditText) findViewById(R.id.zip_code);
         String zip_code = zip_code_input.getText().toString();
-        String requestResponse = getData();
+        JSONObject requestResponse = getData();
         //TODO: change putExtra key
-        intent.putExtra("zip_code", requestResponse);
+        String ip = "no IP found";
+        try {
+            ip = requestResponse.getString("origin");
+        }catch (JSONException e){
+            System.out.println("***********didn't find key origin");
+        }
+        intent.putExtra("zip_code", ip);
         startActivity(intent);
     }
 
-    private String getData() {
-        String result = "not working";
+    private JSONObject getData() {
+        JSONObject result = null;
         System.out.println("*******get data");
         try {
             URL url = new URL("http://httpbin.org/ip");
             try {
                 URLConnection urlConnection = url.openConnection();
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                result = readStream(in);
+                String resultString = readStream(in);
+                result = new JSONObject(resultString);
                 System.out.println("**********reading stream");
                 in.close();
-            } catch (IOException e) {
+            } catch (IOException|JSONException e) {
                 System.out.println("**********IO Exception");
             }
 
