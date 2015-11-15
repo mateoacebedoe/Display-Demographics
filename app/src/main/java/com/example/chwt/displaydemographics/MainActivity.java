@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,6 +21,9 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class MainActivity extends AppCompatActivity {
+    final String KEY = "06c538f6bef96e00f3e39ea1da23b9e810978b77";
+    final String args = "&get=P0010001,NAME&for=state:*";
+    final String basePath = "http://api.census.gov/data/2010/sf1?key=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,32 +38,36 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DisplayDemographicsActivity.class);
         EditText zip_code_input = (EditText) findViewById(R.id.zip_code);
         String zip_code = zip_code_input.getText().toString();
-        JSONObject requestResponse = getData();
+        JSONArray requestResponse = getData();
         //TODO: change putExtra key
-        String ip = "no IP found";
-        try {
-            ip = requestResponse.getString("origin");
-        }catch (JSONException e){
-            System.out.println("***********didn't find key origin");
-        }
+        String ip = requestResponse.toString();
+//        try {
+//            ip = requestResponse.getString("origin");
+//        }catch (JSONException e){
+//            System.out.println("***********didn't find key origin");
+//        }
         intent.putExtra("zip_code", ip);
         startActivity(intent);
     }
 
-    private JSONObject getData() {
-        JSONObject result = null;
+    private JSONArray getData() {
+        JSONArray result = null;
         System.out.println("*******get data");
         try {
-            URL url = new URL("http://httpbin.org/ip");
+            String path = basePath + KEY + args;
+            System.out.println("**********path: " + path);
+            URL url = new URL(path);
             try {
                 URLConnection urlConnection = url.openConnection();
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
                 String resultString = readStream(in);
-                result = new JSONObject(resultString);
+                System.out.println("****************resultString: " + resultString);
+                result = new JSONArray(resultString);
                 System.out.println("**********reading stream");
                 in.close();
             } catch (IOException|JSONException e) {
                 System.out.println("**********IO Exception");
+                System.out.println(e.getMessage());
             }
 
         }catch (MalformedURLException e){

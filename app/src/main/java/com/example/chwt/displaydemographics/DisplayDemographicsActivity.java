@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 public class DisplayDemographicsActivity extends AppCompatActivity {
-    final String key = "06c538f6bef96e00f3e39ea1da23b9e810978b77";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
